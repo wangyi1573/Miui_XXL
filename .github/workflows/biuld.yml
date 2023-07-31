@@ -1,0 +1,64 @@
+name: Android Biuld  # 工作流程名称：Android biuld
+
+on:
+  push:
+    branches: [ main ]  # 当代码提交到 main 分支时触发
+    paths-ignore:
+      - 'README.md'  # 忽略提交 README.md 文件时的触发
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # 在 ubuntu-latest 操作系统环境中运行
+
+    steps:
+      - uses: actions/checkout@v3.5.3  # 使用 actions/checkout 动作，用于检出代码仓库
+        with:
+          fetch-depth: 0  # 完全拉取代码历史
+          submodules: true  # 包括子模块
+
+      - name: Setup JDK 17  # 设置 JDK 环境为 17
+        uses: actions/setup-java@v3.12.0
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+
+      - name: Cache Gradle Dependencies  # 缓存 Gradle 依赖，加速构建过程
+        uses: actions/cache@v3.3.1
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            !~/.gradle/caches/build-cache-*
+          key: gradle-deps-core-${{ hashFiles('**/build.gradle.kts') }}  # 使用 build.gradle.kts 文件的哈希值作为缓存键
+          restore-keys: gradle-deps  # 恢复缓存时使用的键
+
+      - name: Cache Gradle Build  # 缓存 Gradle 构建结果，加速构建过程
+        uses: actions/cache@v3.3.1
+        with:
+          path: |
+            ~/.gradle/caches/build-cache-*
+            ~/.gradle/buildOutputCleanup/cache.properties
+          key: gradle-builds-core-${{ github.sha }}  # 使用 GitHub 提交哈希值作为缓存键
+          restore-keys: gradle-builds  # 恢复缓存时使用的键
+
+      - name: Build with Gradle  # 使用 Gradle 构建项目
+        run: |
+          echo ${{ secrets.SIGNING_KEY }} | base64 -d > keystore.jks  # 解码并保存签名密钥为 keystore.jks 文件
+          bash ./gradlew assemble  # 执行 ./gradlew assemble 命令构建应用
+        env:  # 设置构建时所需的环境变量
+          KEYSTORE_PATH: "../keystore.jks"  # 签名密钥的路径
+          KEYSTORE_PASS: ${{ secrets.KEY_STORE_PASSWORD }}  # 签名密钥库密码
+          KEY_ALIAS: ${{ secrets.ALIAS }}  # 签名密钥别名
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}  # 签名密钥密码
+
+      - name: Upload Release APK  # 上传 Release 版 APK 到 GitHub
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: Miui_XXL-Release  # 设置上传的文件名
+          path: "app/build/outputs/apk/release/*.apk"  # 指定 APK 文件的路径，上传所有 Release 版 APK
+
+      - name: Upload Debug APK  # 上传 Debug 版 APK 到 GitHub
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: Miui_XXL-Debug  # 设置上传的文件名
+          path: "app/build/outputs/apk/debug/*.apk"  # 指定 APK 文件的路径，上传所有 Debug 版 APK
