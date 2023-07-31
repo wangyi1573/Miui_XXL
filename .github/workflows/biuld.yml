@@ -1,4 +1,4 @@
-name: Android Biuld
+name: Android CI
 
 on:
   push:
@@ -42,23 +42,10 @@ jobs:
           restore-keys: gradle-builds
 
       - name: Build with Gradle
-        run: |
-          echo ${{ secrets.SIGNING_KEY }} | base64 -d > keystore.jks
-          bash ./gradlew assemble
-        env:
-          KEYSTORE_PATH: "../keystore.jks"
-          KEYSTORE_PASS: ${{ secrets.KEY_STORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: ./gradlew assembleDebug
 
       - name: Upload Release APK
         uses: actions/upload-artifact@v3.1.2
         with:
           name: Miui_XXL-Release
-          path: "app/build/outputs/apk/release/*.apk"
-
-      - name: Upload Debug APK
-        uses: actions/upload-artifact@v3.1.2
-        with:
-          name: Miui_XXL-Debug
           path: "app/build/outputs/apk/debug/*.apk"
