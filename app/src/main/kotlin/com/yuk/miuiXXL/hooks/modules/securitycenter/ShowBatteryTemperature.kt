@@ -19,9 +19,10 @@ import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.yuk.miuiXXL.hooks.modules.BaseHook
-import com.yuk.miuiXXL.utils.findClassOrNull
-import com.yuk.miuiXXL.utils.getBoolean
-import com.yuk.miuiXXL.utils.getObjectFieldAs
+import com.yuk.miuiXXL.utils.AppUtils.getBatteryTemperature
+import com.yuk.miuiXXL.utils.KotlinXposedHelper.findClassOrNull
+import com.yuk.miuiXXL.utils.KotlinXposedHelper.getObjectFieldAs
+import com.yuk.miuiXXL.utils.XSharedPreferences.getBoolean
 
 object ShowBatteryTemperature : BaseHook() {
     @SuppressLint("DiscouragedApi")
@@ -35,7 +36,7 @@ object ShowBatteryTemperature : BaseHook() {
             loadClass("com.miui.powercenter.a").methodFinder().filterByParamCount(1).filterByReturnType(String::class.java).filterStatic().first()
         }.createHook {
             after {
-                it.result = getBatteryTemperature(it.args[0] as Context).toString()
+                it.result = getBatteryTemperature().toInt().toString()
             }
         }
 
@@ -61,7 +62,7 @@ object ShowBatteryTemperature : BaseHook() {
                             height = dp2px(context, 49f)
                         }
                     }
-                    setTextSize(TypedValue.COMPLEX_UNIT_DIP, 36.4f)
+                    setTextSize(TypedValue.COMPLEX_UNIT_DIP, 37f)
                     gravity = Gravity.NO_GRAVITY
                     typeface = Typeface.create(null, 700, false)
                     textAlignment = View.TEXT_ALIGNMENT_VIEW_START
@@ -98,21 +99,19 @@ object ShowBatteryTemperature : BaseHook() {
                         val relativeLayout = RelativeLayout(context)
                         val l1 = childView.getChildAt(0)
                         val l2 = childView.getChildAt(1).apply {
-                            layoutParams =
-                                RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT).also {
-                                    it.addRule(RelativeLayout.BELOW, l1.id)
-                                    it.addRule(RelativeLayout.ALIGN_START, l1.id)
-                                }
+                            layoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT).also {
+                                it.addRule(RelativeLayout.BELOW, l1.id)
+                                it.addRule(RelativeLayout.ALIGN_START, l1.id)
+                            }
                             (layoutParams as RelativeLayout.LayoutParams).topMargin = -dp2px(context, 0.78f)
                         }
                         val tempView = TextView(context).apply {
-                            layoutParams =
-                                RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT).also {
-                                    it.addRule(RelativeLayout.END_OF, l2.id)
-                                    it.addRule(RelativeLayout.ALIGN_BOTTOM, l2.id)
-                                }
-                            setPadding(dp2px(context, 3.6f), 0, 0, dp2px(context, 5.9f))
-                            setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13.1f)
+                            layoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT).also {
+                                it.addRule(RelativeLayout.END_OF, l2.id)
+                                it.addRule(RelativeLayout.ALIGN_BOTTOM, l2.id)
+                            }
+                            setPadding(dp2px(context, 3.6f), 0, 0, dp2px(context, 5.4f))
+                            setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15f)
                             setTextColor(Color.parseColor(if (isDarkMode) "#e6e6e6" else "#333333"))
                             text = "℃"
                             gravity = Gravity.NO_GRAVITY
@@ -130,8 +129,4 @@ object ShowBatteryTemperature : BaseHook() {
         }
     }
 
-    private fun getBatteryTemperature(context: Context): Int {
-        return context.registerReceiver(null as BroadcastReceiver?, IntentFilter("android.intent.action.BATTERY_CHANGED"))!!
-            .getIntExtra("temperature", 0) / 10
-    }
 }

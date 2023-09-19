@@ -1,6 +1,7 @@
 package com.yuk.miuiXXL.activity.pages
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.ComponentName
 import android.content.Context
 import android.content.pm.PackageManager
@@ -14,8 +15,9 @@ import cn.fkj233.ui.activity.view.TextV
 import cn.fkj233.ui.dialog.MIUIDialog
 import com.yuk.miuiXXL.R
 import com.yuk.miuiXXL.activity.MainActivity
+import com.yuk.miuiXXL.utils.AppUtils.exec
+import com.yuk.miuiXXL.utils.AppUtils.perfFileName
 import com.yuk.miuiXXL.utils.BackupUtils
-import com.yuk.miuiXXL.utils.exec
 
 @BMMainPage("Miui XXL")
 class MainPage : BasePage() {
@@ -43,11 +45,24 @@ class MainPage : BasePage() {
             pm.setComponentEnabledSetting(ComponentName(MIUIActivity.activity, MainActivity::class.java.name + "Alias"), mComponentEnabledState, PackageManager.DONT_KILL_APP)
         }))
         TextWithArrow(TextV(textId = R.string.backup, onClickListener = {
-            BackupUtils.backup(activity, activity.createDeviceProtectedStorageContext().getSharedPreferences("MiuiXXL_Config", Context.MODE_WORLD_READABLE))
+            BackupUtils.backup(activity, activity.createDeviceProtectedStorageContext().getSharedPreferences(perfFileName(), Context.MODE_WORLD_READABLE))
         }))
         TextWithArrow(TextV(textId = R.string.recovery, onClickListener = {
-            BackupUtils.recovery(activity, activity.createDeviceProtectedStorageContext().getSharedPreferences("MiuiXXL_Config", Context.MODE_WORLD_READABLE))
+            BackupUtils.recovery(activity, activity.createDeviceProtectedStorageContext().getSharedPreferences(perfFileName(), Context.MODE_WORLD_READABLE))
         }))
+        TextWithArrow(TextV(textId = R.string.reset_module) {
+            MIUIDialog(activity) {
+                setTitle(R.string.tips)
+                setMessage(R.string.reset_module_summary)
+                setLButton(R.string.cancel) {
+                    dismiss()
+                }
+                setRButton(R.string.done) {
+                    activity.getSharedPreferences(perfFileName(), Activity.MODE_WORLD_READABLE).edit().clear().apply()
+                    Toast.makeText(activity, activity.getString(R.string.reset_module_finished), Toast.LENGTH_LONG).show()
+                }
+            }.show()
+        })
         TextWithArrow(TextV(textId = R.string.restart_scope) {
             MIUIDialog(activity) {
                 setTitle(R.string.tips)

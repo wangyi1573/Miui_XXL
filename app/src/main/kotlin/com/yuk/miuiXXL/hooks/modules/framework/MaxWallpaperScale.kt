@@ -1,12 +1,12 @@
-package com.yuk.miuiXXL.hooks.modules.android
+package com.yuk.miuiXXL.hooks.modules.framework
 
 import com.github.kyuubiran.ezxhelper.ClassUtils.loadClass
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHook
 import com.github.kyuubiran.ezxhelper.HookFactory.`-Static`.createHooks
+import com.github.kyuubiran.ezxhelper.ObjectHelper.Companion.objectHelper
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.yuk.miuiXXL.hooks.modules.BaseHook
-import com.yuk.miuiXXL.utils.getFloat
-import com.yuk.miuiXXL.utils.setFloatField
+import com.yuk.miuiXXL.utils.XSharedPreferences.getFloat
 
 object MaxWallpaperScale : BaseHook() {
     override fun init() {
@@ -16,12 +16,12 @@ object MaxWallpaperScale : BaseHook() {
         val wallpaperControllerClass = loadClass("com.android.server.wm.WallpaperController")
         wallpaperControllerClass.methodFinder().filterByName("zoomOutToScale").filterByParamTypes(Float::class.java).first().createHook {
             before {
-                it.thisObject.setFloatField("mMaxWallpaperScale", value)
+                it.thisObject.objectHelper().setObject("mMaxWallpaperScale", value)
             }
         }
         wallpaperControllerClass.constructors.createHooks {
             after {
-                it.thisObject.setFloatField("mMaxWallpaperScale", value)
+                it.thisObject.objectHelper().setObject("mMaxWallpaperScale", value)
             }
         }
     }

@@ -7,8 +7,17 @@
     <string name="done">确定</string>
     <string name="cancel">取消</string>
 
-    <string name="backup">备份模块设置</string>
-    <string name="recovery">恢复模块设置</string>
+    <string name="backup">备份模块配置</string>
+    <string name="backup_failed">备份模块配置失败</string>
+    <string name="backup_finished">备份模块配置成功</string>
+
+    <string name="recovery">恢复模块配置</string>
+    <string name="recovery_failed">恢复模块配置失败</string>
+    <string name="recovery_finished">恢复模块配置成功</string>
+
+    <string name="reset_module">重置模块配置</string>
+    <string name="reset_module_finished">重置模块配置成功</string>
+    <string name="reset_module_summary">确定要重置模块配置么？</string>
 
     <string name="def">默认：</string>
     <string name="current">当前：</string>
@@ -16,6 +25,7 @@
 
     <string name="reboot_system">重启系统</string>
     <string name="reboot_system_summary">确定要重启系统么？</string>
+
     <string name="restart_scope">重启作用域</string>
     <string name="restart_scope_summary">确定要重启全部作用域么？</string>
     <string name="restart_scope_finished">作用域重启完成</string>
@@ -85,6 +95,8 @@
     <string name="miuihome_complete_blur_fix_summary">补全从应用向上滑动时的模糊效果，这可能导致视觉闪烁和瞬时丢帧</string>
     <string name="miuihome_minus_one_overlap_mode">覆盖模式</string>
     <string name="miuihome_minus_one_overlap_mode_summary">配合「背景模糊」使用，该功能作用域为系统桌面</string>
+    <string name="miuihome_show_real_memory">显示真实内存使用情况</string>
+    <string name="miuihome_show_real_memory_summary">在最近任务中显示真实内存使用情况，需在桌面设置中开启“显示内存信息”</string>
 
     <string name="thememanager">主题壁纸</string>
     <string name="thememanager_remove_ads">去广告</string>
@@ -103,12 +115,14 @@
     <string name="systemui_lockscreen_remove_camera_summary">移除锁屏界面右下角图标及相机功能</string>
     <string name="systemui_disable_bluetooth_restrict">禁用蓝牙临时关闭</string>
     <string name="systemui_disable_bluetooth_restrict_summary">禁用米米对标苹果的「蓝牙临时关闭」功能</string>
-    <string name="systemui_use_new_hd">强制使用新 HD 图标</string>
-    <string name="systemui_use_new_summary">需要较新的系统版本，部分机型可能至今未进版</string>
-    <string name="systemui_show_wifi_standard">显示 WiFi 角标</string>
-    <string name="systemui_show_wifi_standard_summary">WiFi 图标右下角显示当前 Wi-Fi 协议</string>
+    <string name="systemui_force_use_new_hd">状态栏强制使用新 HD 图标</string>
+    <string name="systemui_force_use_new_hd_summary">需要较新的系统版本，部分机型可能至今未进版</string>
+    <string name="systemui_show_wifi_standard">状态栏显示 WiFi 角标</string>
+    <string name="systemui_show_wifi_standard_summary">WiFi 图标右下角显示当前 WiFi 标准</string>
     <string name="systemui_lockscreen_show_seconds">锁屏时间显秒</string>
     <string name="systemui_lockscreen_show_seconds_summary">锁屏界面的时间以秒为单位显示</string>
+    <string name="systemui_statusbar_show_charge_info">状态栏显示充电相关信息</string>
+    <string name="systemui_statusbar_show_charge_info_summary">仅在充电时显示，电流信息仅供参考</string>
 
     <string name="powerkeeper">电量和性能</string>
     <string name="powerkeeper_disable_dynamic_refresh_rate">锁定刷新率</string>

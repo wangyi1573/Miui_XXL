@@ -4,11 +4,11 @@ import com.github.kyuubiran.ezxhelper.EzXHelper
 import com.github.kyuubiran.ezxhelper.Log
 import com.github.kyuubiran.ezxhelper.LogExtensions.logexIfThrow
 import com.yuk.miuiXXL.hooks.modules.BaseHook
-import com.yuk.miuiXXL.hooks.modules.android.FuckValidateTheme3
-import com.yuk.miuiXXL.hooks.modules.android.MaxWallpaperScale
-import com.yuk.miuiXXL.hooks.modules.android.RemoveScreenshotRestriction
-import com.yuk.miuiXXL.hooks.modules.android.RemoveSmallWindowRestriction1
-import com.yuk.miuiXXL.hooks.modules.android.corepatch.CorePatchMainHook
+import com.yuk.miuiXXL.hooks.modules.framework.FuckValidateTheme3
+import com.yuk.miuiXXL.hooks.modules.framework.MaxWallpaperScale
+import com.yuk.miuiXXL.hooks.modules.framework.RemoveScreenshotRestriction
+import com.yuk.miuiXXL.hooks.modules.framework.RemoveSmallWindowRestriction1
+import com.yuk.miuiXXL.hooks.modules.framework.corepatch.CorePatchMainHook
 import com.yuk.miuiXXL.hooks.modules.guardprovider.AntiDefraudAppManager
 import com.yuk.miuiXXL.hooks.modules.mediaeditor.RemoveCropRestriction
 import com.yuk.miuiXXL.hooks.modules.miuihome.AlwaysShowStatusBarClock
@@ -24,6 +24,7 @@ import com.yuk.miuiXXL.hooks.modules.miuihome.RemoveSmallWindowRestriction2
 import com.yuk.miuiXXL.hooks.modules.miuihome.ScrollIconName
 import com.yuk.miuiXXL.hooks.modules.miuihome.SetDeviceLevel
 import com.yuk.miuiXXL.hooks.modules.miuihome.ShortcutAddSmallWindow
+import com.yuk.miuiXXL.hooks.modules.miuihome.ShowRealMemory
 import com.yuk.miuiXXL.hooks.modules.miuihome.TaskViewCardSize
 import com.yuk.miuiXXL.hooks.modules.miuihome.UnlockAnim
 import com.yuk.miuiXXL.hooks.modules.miuihome.UseCompleteBlur
@@ -45,6 +46,7 @@ import com.yuk.miuiXXL.hooks.modules.systemui.RemoveLockScreenCamera
 import com.yuk.miuiXXL.hooks.modules.systemui.RemoveLockScreenMinus
 import com.yuk.miuiXXL.hooks.modules.systemui.RemoveSmallWindowRestriction3
 import com.yuk.miuiXXL.hooks.modules.systemui.ShowWifiStandard
+import com.yuk.miuiXXL.hooks.modules.systemui.StatusBarShowChargingInfo
 import com.yuk.miuiXXL.hooks.modules.systemui.StatusBarShowSeconds
 import com.yuk.miuiXXL.hooks.modules.systemui.UseNewHD
 import com.yuk.miuiXXL.hooks.modules.thememanager.FuckValidateTheme1
@@ -114,6 +116,7 @@ class MainHook : IXposedHookLoadPackage, IXposedHookZygoteInit {
                         ShowWifiStandard,
                         LockScreenShowSeconds,
                         UseNewHD,
+                        StatusBarShowChargingInfo,
                     )
                 }
 
@@ -153,6 +156,7 @@ class MainHook : IXposedHookLoadPackage, IXposedHookZygoteInit {
                         UseCompleteBlur,
                         MinusOneOverlapMode,
                         FuckValidateTheme5,
+                        ShowRealMemory,
                     )
                 }
 

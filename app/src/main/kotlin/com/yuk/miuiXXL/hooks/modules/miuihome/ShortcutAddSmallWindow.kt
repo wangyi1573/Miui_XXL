@@ -16,8 +16,8 @@ import com.github.kyuubiran.ezxhelper.ObjectUtils.invokeMethodBestMatch
 import com.github.kyuubiran.ezxhelper.finders.MethodFinder.`-Static`.methodFinder
 import com.yuk.miuiXXL.R
 import com.yuk.miuiXXL.hooks.modules.BaseHook
-import com.yuk.miuiXXL.utils.getBoolean
-import com.yuk.miuiXXL.utils.new
+import com.yuk.miuiXXL.utils.KotlinXposedHelper.new
+import com.yuk.miuiXXL.utils.XSharedPreferences.getBoolean
 
 object ShortcutAddSmallWindow : BaseHook() {
     override fun init() {
@@ -56,7 +56,10 @@ object ShortcutAddSmallWindow : BaseHook() {
                         intent.component = mComponentName
                         val makeFreeformActivityOptions =
                             invokeStaticMethodBestMatch(mActivityUtilsCompat, "makeFreeformActivityOptions", null, view.context, mComponentName.packageName)
-                        if (makeFreeformActivityOptions != null) view.context.startActivity(intent, invokeMethodBestMatch(makeFreeformActivityOptions, "toBundle") as Bundle)
+                        if (makeFreeformActivityOptions != null) view.context.startActivity(
+                            intent,
+                            invokeMethodBestMatch(makeFreeformActivityOptions, "toBundle") as Bundle
+                        )
                     }
                 }
             }
